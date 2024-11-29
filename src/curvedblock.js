@@ -1,17 +1,22 @@
 import * as THREE from 'three';
 
-function curvedBlock(radius, startAngle, endAngle) {
-    const shape = new THREE.Shape();
-    shape.absarc(0, 0, radius, endAngle, startAngle, true);
-    shape.absarc(0, 0, radius -2, startAngle, endAngle, false);
+export function curvedBlock(radius, size, angleA, angleB) {
+
+    const rad = (Math.PI * 2) / 360
+    const radA = rad * angleA
+    const radB = rad * angleB
+
+    const curved_shape = new THREE.Shape();
+    curved_shape.absarc(0, 0, radius, radB, radA, true);
+    curved_shape.absarc(0, 0, radius + size, radA, radB, false);
     const extrudeSettings = {
         steps: 1,
-        depth: 2,
-        curveSegments: 64
+        depth: 1,
+        curveSegments: 16
     };
-    const geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+    const geometry = new THREE.ExtrudeGeometry( curved_shape, extrudeSettings );
     const material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true } );
-    const mesh = new THREE.Mesh( geometry, material ) ;
+    const mesh = new THREE.Mesh( geometry, material );
     return mesh
 }
 
