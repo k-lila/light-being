@@ -27,7 +27,7 @@ function ringGenerator(radius, size, divisor) {
 
     const mesh_list = []
     for (let i=0; i<rotate.length - 1; i++) {
-        mesh_list.push(curvedBlock(radius, size, rotate[i], rotate[i + 1] - 5))
+        mesh_list.push(curvedBlock(radius, size, rotate[i], rotate[i + 1] - 3))
     }
     return mesh_list
 }

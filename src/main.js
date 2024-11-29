@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import curvedBlock from './curvedblock.js';
-import ringGenerator from './ringgenerator.js';
+import ringSpace from './ringspace.js';
 
 
 function main() {
@@ -16,48 +15,57 @@ function main() {
     const near = 0.1;
     const far = 1000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set( 0, 0, 75 );
+    camera.position.set( 0, 0, 500 );
     camera.lookAt( 0, 0, 0 );
 
 
     
     const scene = new THREE.Scene();
 
-    const mathPi = (Math.PI * 2) / 360
+    const space = ringSpace()
 
-
-    const ring = ringGenerator(20, 2, 5)
-    const ring2 = ringGenerator(24, 2, 3)
-    const ring3 = ringGenerator(28, 2, 3)
-
-    ring.forEach((e) => {
-        scene.add(e)
-    })
-
-
-    ring2.forEach((e) => {
-        scene.add(e)
-    })
-    ring3.forEach((e) => {
-        scene.add(e)
+    space.forEach((e) => {
+        e.forEach((ee) => {
+            scene.add(ee)
+        })
     })
 
 
     renderer.render(scene, camera);
 
 
+    let toggle = true
+    let counter = 1
 
     function animate() {
-        ring.forEach((e, i) => {
-            e.rotation.z += 0.001
+        space.forEach((e, i) => {
+            e.forEach((ee) => {
+                const teste = `0.00${i}`
+                if (toggle) {
+                    ee.rotation.x += Number(teste)
+                    // ee.rotation.y += Number(teste) / 20
+                    // ee.rotation.z += Number(teste) * 3
+                } else {
+                    ee.rotation.x -= Number(teste)
+                    ee.rotation.y -= Number(teste)
+                    ee.rotation.z -= Number(teste)
+                }
+            })
         })
-        ring3.forEach((e, i) => {
-            e.rotation.z -= 0.001
-        })
+        if (toggle) {
+            counter += 1
+        } else {
+            counter -= 1
+        }
+        if (counter == 500) {
+            toggle = false
+        } else if (counter == 0) {
+            toggle = true
+        }
         renderer.render( scene, camera );
         requestAnimationFrame(animate);
     }
-    // animate()
+    animate()
 
 }
 
