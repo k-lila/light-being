@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import ringSpace from './ringspace.js';
+import vitor from './ringGen_v.js';
 
 
 function main() {
@@ -10,63 +11,62 @@ function main() {
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
     renderer.setSize( window.innerWidth, window.innerHeight );
 
-    const fov = 45;
+    const fov = 100;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
-    const far = 1000;
+    const far = 2000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set( 0, 0, 500 );
+    camera.position.set( 0, 0, 1000 );
     camera.lookAt( 0, 0, 0 );
 
 
     
     const scene = new THREE.Scene();
 
-    const space = ringSpace()
-
+    const space = vitor();
+    
     space.forEach((e) => {
-        e.forEach((ee) => {
-            scene.add(ee)
-        })
-    })
+        scene.add(e);
+    });
+
+
+    // space.forEach((e) => {
+    //     e.forEach((ee) => {
+    //         scene.add(ee)
+    //     })
+    // })
 
 
     renderer.render(scene, camera);
 
-
-    let toggle = true
-    let counter = 1
+    let lastTime = Date.now();
+    let counter = 0
+    const delay = 10;
 
     function animate() {
+        const time = Date.now()
         space.forEach((e, i) => {
-            e.forEach((ee) => {
-                const teste = `0.00${i}`
-                if (toggle) {
-                    ee.rotation.x += Number(teste)
-                    // ee.rotation.y += Number(teste) / 20
-                    // ee.rotation.z += Number(teste) * 3
-                } else {
-                    ee.rotation.x -= Number(teste)
-                    ee.rotation.y -= Number(teste)
-                    ee.rotation.z -= Number(teste)
+            if (time - lastTime >= delay) {
+                if (i == counter) {
+                    e.rotation.z += 0.1
                 }
-            })
-        })
-        if (toggle) {
+            }
+            e.rotation.x += 0.001
+            e.rotation.y += 0.001 * i * 0.005
+            e.rotation.z += 0.001
+        });
+        if (time - lastTime >= delay) {
             counter += 1
-        } else {
-            counter -= 1
+            lastTime = time
         }
-        if (counter == 500) {
-            toggle = false
-        } else if (counter == 0) {
-            toggle = true
+        if (counter > space.length + 100) {
+            counter = 0
         }
         renderer.render( scene, camera );
         requestAnimationFrame(animate);
     }
-    animate()
+    animate();
 
 }
 
-main()
+main();

@@ -19,7 +19,7 @@ function ringGenerator(radius, size, divisor) {
         return (m * 360) / circumference 
     })
 
-    const randNum = Math.random() * 360
+    const randNum = Math.random() * 90
     const randDir = Math.random() > 0.5 ? -1 : 1
     const rotate = angles_list.map((m) => {
         return m + (randNum * randDir)
@@ -27,7 +27,7 @@ function ringGenerator(radius, size, divisor) {
 
     const mesh_list = []
     for (let i=0; i<rotate.length - 1; i++) {
-        mesh_list.push(curvedBlock(radius, size, rotate[i], rotate[i + 1] - 3))
+        mesh_list.push(curvedBlock(radius, size, rotate[i], rotate[i + 1] - 2))
     }
     return mesh_list
 }
