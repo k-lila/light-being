@@ -12,7 +12,7 @@ export function curvedBlock(radius, size, angleA, angleB) {
     const extrudeSettings = {
         steps: 1,
         depth: 1,
-        curveSegments: 16
+        curveSegments: 4
     };
     const geometry = new THREE.ExtrudeGeometry( curved_shape, extrudeSettings );
     const material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true } );
