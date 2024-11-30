@@ -20,7 +20,7 @@ function ringGenerator(radius, size, divisor) {
 
 
     const angles_list = divisions_list.map((m, i) => {
-        return [(m * 360) / perimeter, ((divisions_list[i + 1] - 5) * 360) / perimeter ]
+        return [(m * 360) / perimeter, ((divisions_list[i + 1] - 1) * 360) / perimeter ]
     })
 
 
