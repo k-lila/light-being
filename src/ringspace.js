@@ -1,4 +1,4 @@
-import ringGenerator from "./ringgenerator.js";
+import buildRing from "./buildring.js";
 
 function ringSpace() {
     const sunDiameter = 30
@@ -9,7 +9,7 @@ function ringSpace() {
         diameter_list.push(sunDiameter + (i * 3))
     }
     const ringspace = diameter_list.map((m, i) => {
-        return ringGenerator(m, 2, i + 10)
+        return buildRing(m, 2, i + 10)
     })
 
     return ringspace

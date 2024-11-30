@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 
 export function curvedBlock(radius, size, angleA, angleB) {
-
     const rad = (Math.PI * 2) / 360
     const radA = rad * angleA
     const radB = rad * angleB
@@ -15,12 +14,10 @@ export function curvedBlock(radius, size, angleA, angleB) {
         depth: 1,
         curveSegments: 4
     };
-
-
     const geometry = new THREE.ExtrudeGeometry( curved_shape, extrudeSettings );
     const material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: false } );
-    const mesh = new THREE.Mesh( geometry, material );
-    return mesh
+
+    return new THREE.Mesh( geometry, material )
 }
 
 export default curvedBlock

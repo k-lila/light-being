@@ -1,9 +1,7 @@
 import curvedBlock from "./curvedblock.js"
 
-function ringGenerator(radius, size, divisor) {
+function buildRing(radius, size, divisor) {
     const perimeter = 2 * Math.PI * radius
-
-
     const num = (perimeter / divisor) / 2
     const divisions_list = []
     let random_sum = 0     
@@ -18,12 +16,9 @@ function ringGenerator(radius, size, divisor) {
         divisions_list[0] = (perimeter - divisions_list.at(-1)) * -1
     }
 
-
     const angles_list = divisions_list.map((m, i) => {
         return [(m * 360) / perimeter, ((divisions_list[i + 1] - 1) * 360) / perimeter ]
     })
-
-
     // const randNum = Math.random() * 90
     // const randDir = Math.random() > 0.5 ? -1 : 1
     // const rotate = angles_list.map((m) => {
@@ -37,4 +32,4 @@ function ringGenerator(radius, size, divisor) {
     return mesh_list
 }
 
-export default ringGenerator
+export default buildRing
