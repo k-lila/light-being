@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 import ringSpace from './ringspace.js';
-import vitor from './ringGen_v.js';
 
 
 function main() {
-
 
     const canvas = document.querySelector('#sol');
 
@@ -14,27 +12,21 @@ function main() {
     const fov = 100;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
-    const far = 2000;
+    const far = 5000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set( 0, 0, 1000 );
-    camera.lookAt( 0, 0, 0 );
+    camera.position.set( 0, 0, 500 );
+    camera.lookAt( 0, 0, 500 );
 
-
-    
     const scene = new THREE.Scene();
 
-    const space = vitor();
-    
-    space.forEach((e) => {
-        scene.add(e);
-    });
+    const space = ringSpace();
 
 
-    // space.forEach((e) => {
-    //     e.forEach((ee) => {
-    //         scene.add(ee)
-    //     })
-    // })
+    space.forEach((ring) => {
+        ring.forEach((piece) => {
+            scene.add(piece)
+        })
+    })
 
 
     renderer.render(scene, camera);
@@ -42,26 +34,38 @@ function main() {
     let lastTime = Date.now();
     let counter = 0
     const delay = 10;
+    let toggler = true
+
 
     function animate() {
-        const time = Date.now()
-        space.forEach((e, i) => {
-            if (time - lastTime >= delay) {
-                if (i == counter) {
-                    e.rotation.z += 0.1
+        const now = Date.now()
+        space.forEach((ring, i) => {
+            if (i % 2 == 0) {
+                if (toggler) {
+                    ring.forEach((piece) => {
+                        piece.rotation.z += 0.0002
+                    })
+                }
+            } else {
+                if (!toggler) {
+                    ring.forEach((piece) => {
+                        piece.rotation.z -= 0.0002
+                    })
                 }
             }
-            e.rotation.x += 0.001
-            e.rotation.y += 0.001 * i * 0.005
-            e.rotation.z += 0.001
-        });
-        if (time - lastTime >= delay) {
-            counter += 1
-            lastTime = time
-        }
-        if (counter > space.length + 100) {
+        })
+
+        if (counter > 250) {
             counter = 0
+            toggler = Math.random() > 0.5
         }
+
+
+        if (now - lastTime >= delay) {
+            counter += 1
+            lastTime = now
+        }
+
         renderer.render( scene, camera );
         requestAnimationFrame(animate);
     }
