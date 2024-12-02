@@ -17,7 +17,7 @@ function buildRing(radius, size, divisor) {
     }
 
     const angles_list = divisions_list.map((m, i) => {
-        return [(m * 360) / perimeter, ((divisions_list[i + 1] - 1) * 360) / perimeter ]
+        return [(m * 360) / perimeter, ((divisions_list[i + 1]) * 360) / perimeter ]
     })
     // const randNum = Math.random() * 90
     // const randDir = Math.random() > 0.5 ? -1 : 1

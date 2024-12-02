@@ -8,67 +8,39 @@ function main() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     const camera = sunCamera()
-
     const scene = new THREE.Scene();
-
-    const space = ringSpace(100, 30);
-
-    space.forEach((ring) => {
-        ring.forEach((piece) => {
+    const space = ringSpace(150, 50);
+    space.forEach((ring, i) => {
+        ring.forEach((piece, j) => {
             scene.add(piece)
         })
     })
 
 
-
-    // const lightSphereMaterial = new THREE.MeshStandardMaterial({ 
-    //     color: 0xff0040, 
-    //     emissive: 0xff0040,
-    //     emissiveIntensity: 100,
-    //     wireframe: true
-    // });
-    // const sphere = new THREE.SphereGeometry(25);
-    // const light = new THREE.PointLight(0xffffff, 10, 5000);
-    // light.add(new THREE.Mesh(sphere, lightSphereMaterial));
-    // light.position.set( 0, 0, 0 );
-    // scene.add( light );
-    // const helper = new THREE.PointLightHelper(light, 30);
-    // scene.add(helper);
+    const ambientLight = new THREE.AmbientLight(0x404040, 100);
+    scene.add(ambientLight);
 
 
     renderer.render(scene, camera);
 
-    let lastTime = Date.now();
     let counter = 0
-    const delay = 10;
-    let toggler = true
     function animate() {
-        const now = Date.now();
-        const waveSpeed = 0.05; 
-        const waveOffset = 0.3;
-        const waveAmplitude = 0.1;
-    
+        const waveSpeed = 0.01; 
+        const waveOffset = 0.1;
+        const waveAmplitude = 0.075;
+
         space.forEach((ring, i) => {
             const rand = Math.random()
             const minus = i % 2 == 0 ? 1 : -1
             const wavePhase = Math.sin(counter * waveSpeed - i * waveOffset) * waveAmplitude;
             ring.forEach((piece, j) => {
-                piece.position.z += wavePhase * i * 0.1
-                if (minus === 1) {
-                    piece.rotation.z += 0.0001
-                } else {
-                    piece.rotation.z -= 0.0001
-                }
+                piece.position.y += wavePhase
+                piece.rotation.z -= 0.0001
             });
         });
-    
-        if (now - lastTime >= delay) {
-            counter++;
-            lastTime = now;
-        }
 
-        // light.rotation.y += 0.01
-    
+        counter++;
+        
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
     }

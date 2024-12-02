@@ -2,21 +2,18 @@ import * as THREE from 'three';
 
 function sunCamera() {
 
-
-    const teste = window.innerWidth > 500 ? 500 : 1000
-
-    const fov = 45;
+    const fov = 75;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
     const far = 2000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.set(
-        0,
-        0,
-        teste
+        100,
+        -200,
+        500
     );
 
-    camera.lookAt( 0, 0, 0 );
+    camera.lookAt( 100, -200, 0 );
 
     return camera
 }
