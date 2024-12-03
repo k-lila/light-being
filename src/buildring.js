@@ -15,7 +15,6 @@ function buildRing(radius, size, divisor, dephNum) {
     } else {
         divisions_list[0] = (perimeter - divisions_list.at(-1)) * -1
     }
-
     const angles_list = divisions_list.map((m, i) => {
         return [(m * 360) / perimeter, ((divisions_list[i + 1]) * 360) / perimeter ]
     })
@@ -24,7 +23,6 @@ function buildRing(radius, size, divisor, dephNum) {
     const rotate = angles_list.map((m) => {
         return m + (randNum * randDir)
     })
-
     const mesh_list = []
     for (let i=0; i<rotate.length - 1; i++) {
         const randNum = Math.floor(Math.random() * dephNum) + dephNum + 10
