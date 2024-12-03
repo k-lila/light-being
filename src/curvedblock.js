@@ -27,9 +27,7 @@ export function curvedBlock(radius, size, depth, angleA, angleB) {
     });
 
 
-    const mesh = new THREE.Mesh(geometry, material)
-    mesh.userData.angles = [angleA, angleB]
-    return mesh
+    return new THREE.Mesh(geometry, material)
 }
 
 export default curvedBlock
