@@ -23,66 +23,74 @@ function logFPS() {
 }
 
 function main() {
+
     const canvas = document.querySelector('#sol');
     const renderer = new THREE.WebGLRenderer({
-        context: canvas.getContext('webgl2'),
-        antialias: false,
+        antialias: true,
         canvas
     });
+
     renderer.setSize( window.innerWidth, window.innerHeight );
-
-
     const camera = customCamera(0, -1500, 1000);
+
     const scene = new THREE.Scene();
 
-    const body = generateBody(75, 100);
+    let test = 0
+    const body = generateBody(125, 250);
     body.forEach((ring, i) => {
         ring.forEach((piece, j) => {
             scene.add(piece);
+            test += 1
         });
     });
+
+    console.log(test)
 
     renderer.render(scene, camera);
 
     let counter = 0;
-    const waveSpeed = 0.025; 
-    const waveOffset = 0.06;
+    const waveSpeed = 0.02; 
+    const waveOffset = 0.04;
     const waveAmplitude = 1;
-    let angle = 0; // Ângulo inicial em radianos
-    const orbitRadius = 2000; // Distância da câmera ao centro
-    const orbitSpeed = 0.001; // Velocidade de rotação (radianos por quadro)
+    let cameraAngle = 0; 
+    const cameraOrbitRadius = 2000;
+    const cameraOrbitSpeed = 0.001; 
     let cameraZToggler = false
+
+
     function animate() {
         body.forEach((ring, i) => {
             const wavePhase = Math.sin(counter * waveSpeed - i * waveOffset) * waveAmplitude;
             ring.forEach((piece, j) => {               
                 piece.position.z += wavePhase;
                 piece.material.emissiveIntensity += wavePhase * 0.01;
-
+                if (i % 2 == 0) {
+                    piece.rotation.z += 0.001
+                } else {
+                    piece.rotation.z -= 0.001
+                }
             });
         });
-        angle += orbitSpeed;
-        const x = orbitRadius * Math.cos(angle);
-        const y = orbitRadius * Math.sin(angle);
+        cameraAngle += cameraOrbitSpeed;
+        const x = cameraOrbitRadius * Math.cos(cameraAngle);
+        const y = cameraOrbitRadius * Math.sin(cameraAngle);
         camera.position.set(x, y, camera.position.z);
-        // camera.position.z -= 1
         if (cameraZToggler) {
-            camera.position.z -= 1
+            camera.position.z -= 0.1
             if (camera.position.z < -4000) {
                 cameraZToggler = !cameraZToggler
             }
         } else {
-            camera.position.z += 1
+            camera.position.z += 0.1
             if (camera.position.z > 2000) {
                 cameraZToggler = !cameraZToggler
             }
         }
-        console.log(camera.position.z)
         camera.lookAt(0, 0, 0)
 
         counter++;
         renderer.render(scene, camera);
-        // logFPS();
+        logFPS();
         requestAnimationFrame(animate);
     }
     animate();

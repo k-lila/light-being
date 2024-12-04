@@ -11,8 +11,12 @@ function generateBody(numRings, sunDiameter) {
     for (let i = 0; i < numRings; i++) {
         diameter_list.push(sunDiameter + (i * 8))
     }
+    let divisor = 2
     const ringspace = diameter_list.map((m, i) => {
-        return buildRing(m, 10, i + 10, exponentialGrowth(i, numRings, diameter_list.length) + 1)
+        if (i % 2 == 0) {
+            divisor += 0.5
+        }
+        return buildRing(m, 10, Math.floor(divisor), exponentialGrowth(i, numRings, diameter_list.length) + 1)
     })
     return ringspace
 }

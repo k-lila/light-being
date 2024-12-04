@@ -10,7 +10,7 @@ export function curvedBlock(radius, size, depth, angleA, angleB) {
     const extrudeSettings = {
         steps: 1,
         depth: depth,
-        curveSegments: 2
+        curveSegments: 4
     };
     const geometry = new THREE.ExtrudeGeometry( curved_shape, extrudeSettings );
     geometry.translate(0, 0, -depth / 2);
@@ -20,7 +20,7 @@ export function curvedBlock(radius, size, depth, angleA, angleB) {
 
     const material = new THREE.MeshLambertMaterial({
         color: 'rgba(0, 0, 0)',
-        emissive: `rgba(100, ${Math.floor(rand * 255)}, 100)`,
+        emissive: `rgba(${Math.floor(rand * 255)}, ${Math.floor(rand * 255)}, ${Math.floor(rand * 255)})`,
         emissiveIntensity: 0.3,
         transparent: true,
         opacity: opacity

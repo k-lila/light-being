@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 function customCamera(x, y, z) {
-    const fov = 45;
+    const fov = 100;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
     const far = 5000;
