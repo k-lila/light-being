@@ -1,6 +1,6 @@
-import curvedBlock from "./curvedblock.js"
+import bodyBone from "./bodybone.js"
 
-function buildRing(radius, size, divisor, dephNum) {
+function buildbodyring(radius, size, divisor, dephNum) {
     const perimeter = 2 * Math.PI * radius
     const num = (perimeter / divisor) / 2
     const divisions_list = []
@@ -26,10 +26,10 @@ function buildRing(radius, size, divisor, dephNum) {
     const mesh_list = []
     for (let i=0; i<rotate.length - 1; i++) {
         const randNum = Math.floor(Math.random() * dephNum) + dephNum + 10
-        const mesh = curvedBlock(radius, size, randNum, angles_list[i][0], angles_list[i][1])
+        const mesh = bodyBone(radius, size, randNum, angles_list[i][0], angles_list[i][1])
         mesh_list.push(mesh)
     }
     return mesh_list
 }
 
-export default buildRing
+export default buildbodyring

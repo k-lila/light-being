@@ -1,24 +1,19 @@
-import buildRing from "./buildring.js";
+import buildBodyRing from "./buildbodyring.js";
+import exponentialNum from "./exponentialnum.js";
 
-
-function exponentialGrowth(x, maxX, maxY) {
-    const k = 0.005;
-    return maxY * (Math.exp(-k * x) - Math.exp(-k * maxX)) / (1 - Math.exp(-k * maxX));
-}
-
-function generateBody(numRings, sunDiameter) {
+function generateBody(numRings, centerDiameter, divisor) {
     const diameter_list = []
     for (let i = 0; i < numRings; i++) {
-        diameter_list.push(sunDiameter + (i * 8))
+        diameter_list.push(centerDiameter + (i * 10))
     }
-    let divisor = 2
-    const ringspace = diameter_list.map((m, i) => {
+    let _divisor = 2
+    const body = diameter_list.map((m, i) => {
         if (i % 2 == 0) {
-            divisor += 0.5
+            _divisor += divisor
         }
-        return buildRing(m, 10, Math.floor(divisor), exponentialGrowth(i, numRings, diameter_list.length) + 1)
+        return buildBodyRing(m, 11, Math.floor(_divisor), exponentialNum(i, numRings, diameter_list.length, 0.005) + 1)
     })
-    return ringspace
+    return body
 }
 
 export default generateBody

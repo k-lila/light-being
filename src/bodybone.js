@@ -1,6 +1,7 @@
 import * as THREE from 'three';
+import customMaterial from './custommaterial.js';
 
-export function curvedBlock(radius, size, depth, angleA, angleB) {
+function bodyBone(radius, size, depth, angleA, angleB) {
     const rad = (Math.PI * 2) / 360
     const radA = rad * angleA
     const radB = rad * angleB
@@ -13,21 +14,8 @@ export function curvedBlock(radius, size, depth, angleA, angleB) {
         curveSegments: 4
     };
     const geometry = new THREE.ExtrudeGeometry( curved_shape, extrudeSettings );
-    geometry.translate(0, 0, -depth / 2);
-
-    const rand = Math.random()
-    const opacity = rand < 0.2 ? 0.2 : rand
-
-    const material = new THREE.MeshLambertMaterial({
-        color: 'rgba(0, 0, 0)',
-        emissive: `rgba(${Math.floor(rand * 255)}, ${Math.floor(rand * 255)}, ${Math.floor(rand * 255)})`,
-        emissiveIntensity: 0.3,
-        transparent: true,
-        opacity: opacity
-    });
-
-
+    const material = customMaterial()
     return new THREE.Mesh(geometry, material)
 }
 
-export default curvedBlock
+export default bodyBone
