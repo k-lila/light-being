@@ -20,7 +20,7 @@ function main() {
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x000000, 0, 7000 );
 
-    const body = generateBody(125, 250, 0.2);
+    const body = generateBody(100, 250, 0.2);
     body.forEach((ring, i) => {
         ring.forEach((piece, j) => {
             scene.add(piece);
