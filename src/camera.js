@@ -4,7 +4,7 @@ function customCamera(x, y, z) {
     const fov = 100;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
-    const far = 5000;
+    const far = 6000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.set(
         x,
