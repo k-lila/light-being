@@ -1,36 +1,36 @@
 import * as THREE from 'three';
 import customCamera from './src/camera.js';
-import generateBody from './src/generatebody.js';
-import generateTail from './src/generatetail.js';
-import FPS from './src/fps.js';
+import generateBody from './src/body/generatebody.js';
+import generateTail from './src/tail/generatetail.js';
+import FPS from './src/utils/fps.js';
 
 
-const rad = (Math.PI * 2) / 360
 
 
 function main() {
-
+    const rad = (Math.PI * 2) / 360
     const canvas = document.querySelector('#sol');
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
         canvas
     });
     renderer.setSize( window.innerWidth, window.innerHeight );
-    const camera = customCamera(2000, -2500, 1000);
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0x000000, 0, 7000 );
+    const camera = customCamera();
 
-    const body = generateBody(100, 250, 0.2);
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog( 0x000000, 1000, 7000 );
+
+    const body = generateBody();
     body.forEach((ring, i) => {
         ring.forEach((piece, j) => {
             scene.add(piece);
         });
     });
-    const tail = generateTail(75, 250)
+    const tail = generateTail()
     tail.forEach((ring, i) => {
         ring.forEach((piece, j) => {
-            piece.position.z += 200
-            piece.geometry.rotateX(rad * (30 + (i / 3)) * -1)
+            piece.position.z += 350
+            piece.geometry.rotateX(rad * (30 + (i * 2)) * -1)
             piece.rotation.z += rad * i
             scene.add(piece)
         })
@@ -42,11 +42,10 @@ function main() {
     const waveSpeed = 0.02; 
     const waveOffset = 0.04;
     const waveAmplitude = 1;
-
     let cameraAngle = 0; 
     const cameraOrbitRadius = 2000;
     const cameraOrbitSpeed = 0.001; 
-    let cameraZToggler = true    
+    let cameraZToggler = true
 
     function animate() {
         body.forEach((ring, i) => {
@@ -62,11 +61,16 @@ function main() {
             });
         });
         tail.forEach((t, i) => {
-            const wavePhase = Math.sin(counter * waveSpeed - i * (waveOffset * 2)) * waveAmplitude;
+            const waveSin = Math.sin(counter * waveSpeed - i * (waveOffset * 2)) * waveAmplitude;
             t.forEach((b, j) => {
-                b.material.emissiveIntensity = ((wavePhase + 1) / 2) - 0.2
-                b.geometry.rotateX(rad * wavePhase * 45 * 0.01 * -1)
-                b.rotation.z += 0.01 * ((wavePhase + 1) / 2)
+                b.material.emissiveIntensity = ((waveSin + 1) / 2) - 0.125
+                b.material.opacity = ((waveSin + 1) / 2) - 0.2
+                b.geometry.rotateX(rad * waveSin * 30 * 0.01 * -1)
+                if (i % 2 == 0) {
+                    b.rotation.z += 0.02 * ((waveSin + 1) / 2)
+                } else {
+                    b.rotation.z -= 0.02 * ((waveSin + 1) / 2)
+                }
             })
         })
 
@@ -91,6 +95,7 @@ function main() {
                 cameraZToggler = !cameraZToggler
             }
         }
+
         camera.lookAt(0, 0, 0)
 
         counter++;

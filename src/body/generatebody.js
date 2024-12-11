@@ -1,7 +1,7 @@
 import buildBodyRing from "./buildbodyring.js";
-import exponentialNum from "./exponentialnum.js";
+import exponentialNum from "../utils/exponentialnum.js";
 
-function generateBody(numRings, centerDiameter, divisor) {
+function generateBody(numRings=100, centerDiameter=250, divisor=0.2) {
     const diameter_list = []
     for (let i = 0; i < numRings; i++) {
         diameter_list.push(centerDiameter + (i * 10))

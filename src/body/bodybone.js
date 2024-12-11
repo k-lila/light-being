@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import customMaterial from './custommaterial.js';
+import customMaterial from '../custommaterial.js';
 
 function bodyBone(radius, size, depth, angleA, angleB) {
     const rad = (Math.PI * 2) / 360

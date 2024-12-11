@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import tailBone from './tailbone.js';
-import exponentialNum from './exponentialnum.js';
+import exponentialNum from '../utils/exponentialnum.js';
 
 function buildTailRing(radius, sides, tailNum) {
     const rad = (Math.PI * 2) / 360
@@ -9,7 +9,7 @@ function buildTailRing(radius, sides, tailNum) {
     for (let i=0; i < sides; i++) {
         const rand = Math.random()
         const multiplier = rand > 0.5 ? rand : 0.5
-        const height = exponentialNum(tailNum, 1000, 350, 0.07) + (Math.random() * 250)
+        const height = exponentialNum(tailNum, 1000, 550, 0.05)
         const bone = tailBone(
             max_size * multiplier,
             height,

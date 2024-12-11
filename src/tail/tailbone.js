@@ -1,12 +1,16 @@
 import * as THREE from 'three';
-import customMaterial from './custommaterial.js';
+import customMaterial from '../custommaterial.js';
 
 function tailBone(width, height, depth) {
+    const randA = (Math.random() * 5) / 10
+    const randB = (Math.random() * 5) / 10
     const rectangle_shape = new THREE.Shape();
     rectangle_shape.moveTo(0, 0);
     rectangle_shape.lineTo(width, 0);
-    rectangle_shape.lineTo(width, height);
-    rectangle_shape.lineTo(0, height);
+    rectangle_shape.lineTo(width, (height * randA));
+    rectangle_shape.lineTo(width / 1.5, height);
+    rectangle_shape.lineTo(width / 2.5, height);
+    rectangle_shape.lineTo(0, (height * randB));
     rectangle_shape.lineTo(0, 0);
     const extrudeSettings = {
         steps: 1,
